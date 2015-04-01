@@ -1,25 +1,30 @@
 require "net/http"
 require "uri"
 require "json"
+require 'socket'
 
-def get_reddit
-  uri = URI.parse("http://www.reddit.com/r/rails/new/.json")
+uri = URI.parse("http://www.reddit.com/r/rails/new/.json")
 
-  response = Net::HTTP.get_response(uri)
 
-  data = JSON.parse(response.body)
-  posts= []
-  data['data']['children'].each do |child|
-     posts << child
+class StreamClient
+  def initialize user, pass
+    @ba = ["#{user}:#{pass}"].pack('m').chomp
   end
-  posts
+
+  def listen
+    socket = TCPSocket.new 'reddit.com', 80
+    socket.write "GET /r/rails/new/.json HTTP/1.1\r\n"
+    socket.write "Host: reddit.com\r\n"
+    socket.write "\r\n"
+
+    # Read the headers
+    while((line = socket.readline) != "\r\n"); puts line if $DEBUG; end
+
+    # Consume the feed
+    while line = socket.readline
+      puts line
+    end
+  end
 end
-  
 
-
-@posts = get_reddit
-
-@posts.each do |post|
-  puts "#{post["data"]['title']} : #{post["data"]['url']}"
-
-end
+StreamClient.new(ARGV[0], ARGV[1]).listen

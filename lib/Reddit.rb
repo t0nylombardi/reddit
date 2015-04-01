@@ -1,7 +1,7 @@
 class Reddit
   class << self
     def get_reddit
-      uri = URI.parse("http://www.reddit.com/r/rails/new/.json")
+      uri = URI.parse("http://www.reddit.com/r/rails/new/.json?limit=[1]")
 
       response = Net::HTTP.get_response(uri)
 

@@ -9,7 +9,8 @@ require "json"
 
 
 
+
 get "/" do
   @posts = Reddit.get_reddit
-  erb :index
+  erb :index  
 end
