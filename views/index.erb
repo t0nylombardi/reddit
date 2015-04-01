@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>/r/Rails Reader</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <style type="text/css">
+      .page-header {
+        border-bottom: none;
+        text-align: center;
+      }
+
+      .container {
+        width: 750px;
+      }
+
+      .posts li{
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1><abbr title="">Live /r/rails Reader</abbr></h1>
+      </div>
+
+      <ul class="posts">
+      <% @posts.each do |post |%>
+        <li><a href="<%= post['data']['url'] %>" target="_blank"><%= post['data']['title'] %></a></li>
+      <% end %>
+      </ul>
+    </div>
+    <script src="js/zepto.min.js"></script>
+    <script>
+     
+    </script>
+  </body>
+</html>
